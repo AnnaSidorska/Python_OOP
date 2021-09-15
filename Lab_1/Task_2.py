@@ -7,7 +7,7 @@ import sys
 
 dictionaryOfOperators = {
     'add': '+',
-    'minus': '-',
+    'sub': '-',
     'multiply': '*',
     'divide': '/'
 }
