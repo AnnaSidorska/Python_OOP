@@ -36,7 +36,8 @@ class Rectangle:
 def main():
     obj1 = Rectangle()
     try:
-        obj1.set_len(1)
+        obj1.set_len(3)
+        obj1.set_len(1.5)
         print(obj1.perimeter())
         print(obj1.square())
     except Exception as e:
