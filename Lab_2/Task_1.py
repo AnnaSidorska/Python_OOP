@@ -19,7 +19,7 @@ class Rectangle:
 
     def set_wid(self, width):
         if not isinstance(width, (int, float)):
-            raise TypeError("Length must be int of float.")
+            raise TypeError("Width must be int of float.")
         if not 0.0 < width < 20.0:
             raise ValueError("Invalid input. Width should be a number in range 0 - 20.")
         self.__width = width
