@@ -1,30 +1,26 @@
 import sys
-operators = ['+', '-']
+numbers = '0123456789'
+sign = '-+'
 
-
-def check_formula(user_input):
-    """ Checks user input for the accuracy. """
-
-    formula_flag = True
-    for current_element in user_input:
-        if current_element.isdigit():
-            formula_flag = True
-        elif formula_flag and current_element in operators:
-            formula_flag = False
+def formula(string):
+    index = 1
+    for input in string:
+        if input in numbers:
+            index = 1
+        elif index and input in sign:
+            index = 0
+        elif index == 1 and (input == '(' or ')'):
+            index = 10
         else:
             return 0
-    if formula_flag:
+    if index:
         return 1
     return 0
 
-
-if __name__ == "__main__":
-    result = ''
-    for index in range(1, len(sys.argv)):
-        result += sys.argv[index]
-    if check_formula(result):
-        print('(True, {})'.format(eval(result)))
-        """ Calculate the result if it is correct. """
-
-    else:
-        print('(False, None)')
+solution = ''
+for index in range(1, len(sys.argv)):
+    solution += sys.argv[index]
+if formula(solution):
+    print('(True, {})'.format(eval(solution)))
+else:
+    print('(False, None)')
