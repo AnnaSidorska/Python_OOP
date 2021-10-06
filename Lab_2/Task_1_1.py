@@ -1,63 +1,47 @@
-class Product:
-    def __init__(self, price, description):
-        self.__price = price
-        if not isinstance(price, (int, float)):
-            raise TypeError("Price must be int of float.")
-        self.__description = description
+class Rectangle:
 
-    def get_price(self):
-        return self.__price
+    def __init__(self, length=1, width=1):
+        self.__width = self.set_wid(width)
+        self.__length = self.set_len(length)
 
-    def get_description(self):
-        return self.__description
+    def get_len(self):
+        return self.__length
 
+    def get_wid(self):
+        return self.__width
 
-class Customer:
-    def __init__(self, name, surname, mobile_phone):
-        self.__name = name
-        self.__surname = surname
-        self.__mobile_phone = mobile_phone
+    def set_len(self, length):
+        if not isinstance(length, (int, float)):
+            raise TypeError("Length must be int of float.")
+        if not 0.0 < length < 20.0:
+            raise ValueError("Invalid input. Length should be a number in range 0 - 20.")
+        self.__length = length
 
-    def get_name(self):
-        return self.__name
+    def set_wid(self, width):
+        if not isinstance(width, (int, float)):
+            raise TypeError("Width must be int of float.")
+        if not 0.0 < width < 20.0:
+            raise ValueError("Invalid input. Width should be a number in range 0 - 20.")
+        self.__width = width
 
-    def get_surname(self):
-        return self.__surname
+    def perimeter(self):
+        print("Perimeter: ")
+        return (self.__length + self.__width) * 2
 
-    def get_phone(self):
-        return self.__mobile_phone
-
-
-class Order:
-    def __init__(self, customer, product):
-        self.__customer = customer
-        self.__products = []
-        self.__products.append(product)
-
-    def calculate_sum(self):
-        total_amount = 0
-        for temp_prod in self.__products:
-            total_amount += temp_prod.get_price()
-        return total_amount
-
-    def add_product(self, product):
-        self.__products.append(product)
-
-    def output(self):
-        for temp_desc in self.__products:
-            print('Name of product: ' + temp_desc.get_description())
-            print('Price of product: ', temp_desc.get_price())
-        print("Customers' name: ", f'{self.__customer.get_name()}')
-        print("Customers' surname: ", f'{self.__customer.get_surname()}')
+    def square(self):
+        print("Square: ")
+        return self.__width * self.__length
 
 
 def main():
-    product_1 = Product(1599, "IPhone")
-    customer_1 = Customer("John", "Pavlovich", 20377)
-    order_1 = Order(customer_1, product_1)
-    order_1.add_product(Product(150, "Waffles"))
-    print('Total price: ', order_1.calculate_sum())
-    order_1.output()
+    obj1 = Rectangle()
+    try:
+        obj1.set_len(3)
+        obj1.set_wid(1.5)
+        print(obj1.perimeter())
+        print(obj1.square())
+    except Exception as e:
+        print(e)
 
 
 main()
