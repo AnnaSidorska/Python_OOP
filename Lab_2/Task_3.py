@@ -6,9 +6,9 @@ class Product:
     This class represents a product.
     """
     def __init__(self, product_name, price, description):
-        self.__product_name = product_name
-        self.__price = price
-        self.__description = description
+        self.product_name = product_name
+        self.price = price
+        self.description = description
 
     @property
     def product_name(self):
