@@ -3,8 +3,8 @@ class Rectangle:
     This class is for calculating area and perimeter of the rectangle.
     """
     def __init__(self, length=1, width=1):
-        self.__width = width
-        self.__length = length
+        self.width = width
+        self.length = length
 
     @property
     def length(self):
