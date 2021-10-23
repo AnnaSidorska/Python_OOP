@@ -2,6 +2,7 @@ import sys
 numbers = '0123456789'
 sign = '-+'
 
+
 def formula(string):
     index = 1
     for input in string:
@@ -16,6 +17,7 @@ def formula(string):
     if index:
         return 1
     return 0
+
 
 solution = ''
 for index in range(1, len(sys.argv)):
