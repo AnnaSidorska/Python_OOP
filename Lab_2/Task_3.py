@@ -2,6 +2,9 @@ import re
 
 
 class Product:
+    """
+    This class represents a product.
+    """
     def __init__(self, product_name, price, description):
         self.__product_name = product_name
         self.__price = price
@@ -50,6 +53,9 @@ class Product:
 
 
 class Customer:
+    """
+    This class represents a customer.
+    """
     def __init__(self, name, surname, phone):
         self.__name = name
         self.__surname = surname
@@ -97,6 +103,9 @@ class Customer:
 
 
 class Order:
+    """
+    This class represents an order.
+    """
     def __init__(self, customer, *product):
         self.__customer = customer
         self.__products = list(product)
@@ -139,7 +148,9 @@ def main():
     product1 = Product("Waffles", 27.89, "Large")
     order1 = Order(customer1, product1)
     product2 = Product("Cookies", 21.99, "Tasty")
+    product3 = Product("Ochkolamp", 69.69, "Animal")
     order1.add_product(product2)
+    order1.add_product(product3)
     print(order1)
     print("Total order value:", round(order1.total_sum(), 2))
 
