@@ -81,8 +81,8 @@ class Group:
     __duplicate_name = []
 
     def __init__(self, *student):
-        self.__student = list(student)
-        for student in self.__student:
+        self.student = list(student)
+        for student in self.student:
             if student.name and student.surname in self.__duplicate_name:
                 raise ValueError("Duplicate student's name and surname!")
             self.__duplicate_name.append(student.name + student.surname)
@@ -111,11 +111,8 @@ class Group:
         self.num_of_students -= 1
 
     def top_five(self):
-        top = {}
-        for student in self.__student:
-            top[student.name, student.surname] = student.average_score()
-        sort_score = {key: value for key, value in sorted(top.items(), key=lambda item: item[1], reverse=True)}
-        return list(sort_score)[0:5]
+        self.__student.sort(key=lambda student: student.average_score(), reverse=True)
+        return self.__student[:5]
 
     def __str__(self):
         list_of_students = '\n'.join(list(map(str, self.student)))
@@ -133,7 +130,9 @@ def main():
     group.add_student(st5)
     group.add_student(st6)
     print(group)
-    print("Best students: ", group.top_five())
+    print("Best students: ")
+    for i in group.top_five():
+        print(i)
 
 
 main()
