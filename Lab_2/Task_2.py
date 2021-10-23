@@ -2,6 +2,9 @@ import math
 
 
 class Rational:
+    """
+    This class is for performing arithmetic with fractions.
+    """
     def __init__(self, numerator=1, denominator=1):
         if not isinstance(numerator, int):
             raise TypeError("Wrong type of numerator.")
