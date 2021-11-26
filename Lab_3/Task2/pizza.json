@@ -1,0 +1,46 @@
+{
+  "Pizza": [
+    {
+      "Day": "Monday",
+      "Name": "Margherita",
+      "Price": 120,
+      "Ingredients": ["Mozzarella", "Basil"]
+    },
+    {
+      "Day": "Tuesday",
+      "Name": "Pepperoni",
+      "Price": 115,
+      "Ingredients": ["Sauce", "Pepperoni"]
+    },
+    {
+      "Day": "Wednesday",
+      "Name": "Mexican",
+      "Price": 140,
+      "Ingredients": ["Olives", "Tomato"]
+    },
+    {
+      "Day": "Thursday",
+      "Name": "Four-cheese",
+      "Price": 155,
+      "Ingredients": ["Mozzarella", "Gorgonzola"]
+    },
+    {
+      "Day": "Friday",
+      "Name": "Supreme",
+      "Price": 130,
+      "Ingredients": ["Bacon", "Onion"]
+    },
+    {
+      "Day": "Saturday",
+      "Name": "Hawaiian",
+      "Price": 120,
+      "Ingredients": ["Ham", "Pineapple"]
+    },
+    {
+      "Day": "Sunday",
+      "Name": "BBQ",
+      "Price": 150,
+      "Ingredients": ["Pepperoni", "Ham"]
+    }
+  ]
+}
