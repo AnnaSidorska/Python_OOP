@@ -5,15 +5,12 @@ import re
 cursor = db.cursor()
 
 
-class CourseFactory(ICourseFactory):
-    def create_course(self, c_name, course_type, topics, teacher):
-        if course_type == "Local":
-            return LocalCourse(c_name, topics, teacher)
-        elif course_type == "Offsite":
-            return OffsiteCourse(c_name, topics, teacher)
-
-
 class Teacher(ITeacher):
+    """
+    Class represents a teacher, contains name, surname, phone.
+    Implements ITeacher.
+    """
+
     def __init__(self, name, surname, phone):
         self.name = name
         self.surname = surname
@@ -21,10 +18,12 @@ class Teacher(ITeacher):
 
     @property
     def name(self):
+        """name getter"""
         return self.__name
 
     @name.setter
     def name(self, name):
+        """name setter"""
         if not isinstance(name, str):
             raise TypeError("Name must has a string type!")
         if not name:
@@ -33,10 +32,12 @@ class Teacher(ITeacher):
 
     @property
     def surname(self):
+        """surname getter"""
         return self.__surname
 
     @surname.setter
     def surname(self, surname):
+        """surname setter"""
         if not isinstance(surname, str):
             raise TypeError("Surname must has a string type!")
         if not surname:
@@ -45,10 +46,12 @@ class Teacher(ITeacher):
 
     @property
     def phone(self):
+        """phone getter"""
         return self.__phone
 
     @phone.setter
     def phone(self, phone):
+        """phone setter"""
         if not isinstance(phone, str):
             raise TypeError("Phone number must have string type!")
         mask = re.compile("^[+]380[0-9]{9}$")
@@ -61,6 +64,11 @@ class Teacher(ITeacher):
 
 
 class Course(ICourse):
+    """
+    Class represents a course, contains name, teacher, topics.
+    Implements ICourse.
+    """
+
     def __init__(self, name, topics, teacher):
         self.name = name
         self.topics = topics
@@ -68,10 +76,12 @@ class Course(ICourse):
 
     @property
     def name(self):
+        """name getter"""
         return self.__name
 
     @name.setter
     def name(self, name):
+        """name setter"""
         if not isinstance(name, str):
             raise TypeError("Name must be a string.")
         if not name:
@@ -80,10 +90,12 @@ class Course(ICourse):
 
     @property
     def teacher(self):
+        """teacher getter"""
         return self.__teacher
 
     @teacher.setter
     def teacher(self, teacher):
+        """teacher setter"""
         if not isinstance(teacher, Teacher):
             raise TypeError("Teacher must be a Teacher.")
         if not teacher:
@@ -92,14 +104,16 @@ class Course(ICourse):
 
     @property
     def topics(self):
+        """topics getter"""
         return self.__topics
 
     @topics.setter
     def topics(self, topics):
+        """topics setter"""
         if not isinstance(topics, list):
             raise TypeError("Not list!")
         if not all(isinstance(elem, str) for elem in topics):
-            raise ValueError("not string")
+            raise ValueError("Not string!")
         self.__topics = topics
 
     def __str__(self):
@@ -107,6 +121,11 @@ class Course(ICourse):
 
 
 class LocalCourse(ILocalCourse, Course):
+    """
+    Class contains information about local course.
+    Implements ILocalCourse, Course.
+    """
+
     def __init__(self, name, topics, teacher):
         super().__init__(name, topics, teacher)
         self.course_type = "Local"
@@ -116,6 +135,11 @@ class LocalCourse(ILocalCourse, Course):
 
 
 class OffsiteCourse(IOffsiteCourse, Course):
+    """
+    Class contains information about offsite course.
+    Implements IOffsiteCourse, Course.
+    """
+
     def __init__(self, name, topics, teacher):
         super().__init__(name, topics, teacher)
         self.course_type = "Offsite"
@@ -124,18 +148,57 @@ class OffsiteCourse(IOffsiteCourse, Course):
         return f'Offsite course:\n\tName: {self.name}\n\tTeacher: {self.teacher}\n\tTopics: {self.topics}'
 
 
-def main():
-    t1 = Teacher("Daniil", "Dankovsky", "+380678923165")
-    t2 = Teacher("Artemy", "Burakh", "+380932378217")
-    c1 = CourseFactory().create_course("Java/Spring",  "Local", ['Java', 'Spring', 'JavaScript'], t1)
-    c2 = CourseFactory().create_course("Full-stack Development",  "Offsite", ['Front-end', 'Back-end'], t2)
-    # insert = f"INSERT INTO course(Course_name, Course_type, Course_topics, id_teacher) " \
-    #          f"VALUES(%s, %s, %s, %s)"
-    # val = "Full-stack Development", "Offsite", ', '.join(['Front-end', 'Back-end']), 2
-    # cursor.execute(insert, val)
-    # db.commit()
-    print(c1)
-    print(c2)
+class CourseFactory(ICourseFactory):
+    """
+    Class contains methods for course factory.
+    """
 
+    def create_course(self, c_name, course_type, topics, teacher):
+        """Create and return created course"""
+        if course_type == "Local":
+            return LocalCourse(c_name, topics, teacher)
+        elif course_type == "Offsite":
+            return OffsiteCourse(c_name, topics, teacher)
+        else:
+            raise ValueError("Input value is incorrect!")
 
-main()
+    @staticmethod
+    def add_teacher(Teacher):
+        """Add teacher to database"""
+        insert = f"INSERT INTO teacher(Teacher_name, Teacher_surname, Teacher_phone) " \
+                 f"VALUES(%s, %s, %s)"
+        values = Teacher.name, Teacher.surname, Teacher.phone
+        cursor.execute(insert, values)
+        db.commit()
+
+    @staticmethod
+    def add_course(Course):
+        """Add course to database"""
+        insert = f"INSERT INTO course(Course_name, Course_type, Course_topics, name_teacher) " \
+                 f"VALUES(%s, %s, %s, %s)"
+        values = Course.name, Course.course_type, ', '.join(Course.topics), Course.teacher.name
+        cursor.execute(insert, values)
+        db.commit()
+
+    @staticmethod
+    def get_courses():
+        """Get all courses from database"""
+        cursor.execute("SELECT * FROM course")
+        all_teachers = cursor.fetchall()
+        return '\n'.join(map(str, all_teachers))
+
+    @staticmethod
+    def get_teachers():
+        """Get all teachers from database"""
+        cursor.execute("SELECT * FROM teacher")
+        all_teachers = cursor.fetchall()
+        return '\n'.join(map(str, all_teachers))
+
+    @staticmethod
+    def find_course(value):
+        """Find course by teacher's name"""
+        select = "SELECT * FROM course WHERE name_teacher = %s"
+        name = (value,)
+        cursor.execute(select, name)
+        result = cursor.fetchall()
+        return '\n'.join(map(str, result))
