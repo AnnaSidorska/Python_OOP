@@ -3,6 +3,6 @@ import mysql.connector
 db = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="password",
+  password="Gitignore9#9",
   database="course"
 )
